@@ -1,27 +1,33 @@
 /*jshint esversion: 6*/
-function personRequest() {
-  console.log("this request is ", this.responseText);
-  //storing string object..parsing it.. saving to variable
+function personRequestOne() {
   let personObject = JSON.parse(this.responseText);
-  console.log(personObject);
   document.getElementById("person4Name").innerHTML = personObject.name;
 
-  function homeRequeset() {
-    console.log("homeworld request", this.responseText);
-    let worldObject = JSON.parse(this.responseText);
-    console.log(worldObject)
-    document.getElementById("person4HomeWorld").innerHTML = worldObject.name;
+  function homeRequest() {
+  let homeWorldObject = JSON.parse(this.responseText);
+  document.getElementById("person4HomeWorld").innerHTML = homeWorldObject.name;
   }
+  requestHelper(personObject.homeworld, homeRequest);
+}
 
-    let homeReq = new XMLHttpRequest();
-    homeReq.addEventListener("load", homeRequeset);
-    homeReq.open("GET", personObject.homeworld);
-    homeReq.send();
+function personRequestTwo() {
+  let personObject = JSON.parse(this.responseText);
+  document.getElementById("person14Name").innerHTML = personObject.name;
+
+  function speciesRequest() {
+    let speciesObject = JSON.parse(this.responseText);
+    document.getElementById("person14Species").innerHTML = speciesObject.name;
+  }
+  requestHelper(personObject.species, speciesRequest);
 }
 
 
+function requestHelper(link, listener) {
+  let newReq = new XMLHttpRequest();
+  newReq.addEventListener("load", listener);
+  newReq.open("GET", link);
+  newReq.send();
+}
 
-let perReq = new XMLHttpRequest();
-perReq.addEventListener("load", personRequest);
-perReq.open("GET", "http://swapi.co/api/people/4/");
-perReq.send();
+requestHelper("http://swapi.co/api/people/4/", personRequestOne);
+requestHelper("http://swapi.co/api/people/14/", personRequestTwo);
