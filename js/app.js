@@ -31,16 +31,16 @@ function filmRequest() {
     let planetsUl = document.createElement('ul');
     createList(filmArray, i, planetsUl);
     for(let j = 0; j < filmArray[i].planets.length; j++){
-        planetRequest(planetsUl, filmArray[i].planets[j]);
+        createPlanets(planetsUl, filmArray[i].planets[j]);
     }
   }
 }
 
-function planetRequest(list, url) {
+function createPlanets(list, url) {
 
-    requestHelper(url, newFunc);
+    requestHelper(url, planetRequest);
 
-    function newFunc() {
+    function planetRequest() {
       let planetObject = JSON.parse(this.responseText);
       let planetNameList = document.createElement('li');
       let planetNameHeader = document.createElement('h4');
