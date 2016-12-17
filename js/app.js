@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 const firstUl = document.getElementById('filmList');
-//first person request showing name and homeworld
+
 function personRequestOne() {
   let personObject = JSON.parse(this.responseText);
   document.getElementById("person4Name").innerHTML = personObject.name;
@@ -12,7 +12,6 @@ function personRequestOne() {
   requestHelper(personObject.homeworld, homeRequest);
 }
 
-//second person request showing name and species
 function personRequestTwo() {
   let personObject = JSON.parse(this.responseText);
   document.getElementById("person14Name").innerHTML = personObject.name;
@@ -24,30 +23,32 @@ function personRequestTwo() {
   requestHelper(personObject.species, speciesRequest);
 }
 
-//film request listing each film element and film title
 function filmRequest() {
+
   let filmArray = JSON.parse(this.responseText).results;
 
   for(let i = 0; i < filmArray.length; i++){
     let planetsUl = document.createElement('ul');
     createList(filmArray, i, planetsUl);
     for(let j = 0; j < filmArray[i].planets.length; j++){
-        requestHelper(filmArray[i].planets[j], planetRequest(planetsUl));
-        console.log(planetRequest(planetsUl));
+        planetRequest(planetsUl, filmArray[i].planets[j]);
     }
   }
-  function planetRequest(list) {
-    let planetObject = JSON.parse(this.responseText);
-    console.log(planetObject)
-    let planetNameList = document.createElement('li');
-    let planetNameHeader = document.createElement('h4');
-    planetNameHeader.innerHTML = planetObject.name;
-    planetNameList.appendChild(planetNameHeader);
-    list.appendChild(planetNameList);
-    return planetObject;
-
-  }
 }
+
+function planetRequest(list, url) {
+
+    requestHelper(url, newFunc);
+
+    function newFunc() {
+      let planetObject = JSON.parse(this.responseText);
+      let planetNameList = document.createElement('li');
+      let planetNameHeader = document.createElement('h4');
+      planetNameHeader.innerHTML = planetObject.name;
+      planetNameList.appendChild(planetNameHeader);
+      list.appendChild(planetNameList);
+    }
+  }
 
 function createList(array, index, list) {
   let filmlist = document.createElement('li');
@@ -67,6 +68,7 @@ function requestHelper(link, listener) {
   newReq.addEventListener("load", listener);
   newReq.open("GET", link);
   newReq.send();
+
 }
 
 requestHelper("http://swapi.co/api/people/4/", personRequestOne);
