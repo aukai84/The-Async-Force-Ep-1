@@ -23,15 +23,15 @@ function personRequestTwo() {
   requestHelper(personObject.species, speciesRequest);
 }
 
-function filmRequest() {
+function filmsRequest() {
 
-  let filmArray = JSON.parse(this.responseText).results;
+  let filmsArray = JSON.parse(this.responseText).results;
 
-  for(let i = 0; i < filmArray.length; i++){
+  for(let i = 0; i < filmsArray.length; i++){
     let planetsUl = document.createElement('ul');
-    createList(filmArray, i, planetsUl);
-    for(let j = 0; j < filmArray[i].planets.length; j++){
-        createPlanets(planetsUl, filmArray[i].planets[j]);
+    createList(filmsArray, i, planetsUl);
+    for(let j = 0; j < filmsArray[i].planets.length; j++){
+        createPlanets(planetsUl, filmsArray[i].planets[j]);
     }
   }
 }
@@ -73,4 +73,4 @@ function requestHelper(link, listener) {
 
 requestHelper("http://swapi.co/api/people/4/", personRequestOne);
 requestHelper("http://swapi.co/api/people/14/", personRequestTwo);
-requestHelper("http://swapi.co/api/films/", filmRequest);
+requestHelper("http://swapi.co/api/films/", filmsRequest);
